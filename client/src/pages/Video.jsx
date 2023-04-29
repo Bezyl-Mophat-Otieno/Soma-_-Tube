@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect , useState } from "react";
 import styled from "styled-components";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
@@ -6,6 +6,9 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
 import Card from "../components/Card";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+
 
 const Container = styled.div`
   display: flex;
@@ -105,6 +108,20 @@ const Subscribe = styled.button`
 `;
 
 const Video = () => {
+  const [video,setVideo] = useState()
+  const [channel , setChannel] = useState()
+
+  const path = useLocation().pathname.split('/')[2]
+  useEffect(()=>{
+    const fetchVideo = async()=>{
+      const videoRes = await axios.get(`/videos/find/${path}`)
+      const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
+      setVideo(videoRes.data)
+      setChannel(channelRes.data)
+
+    }
+
+  },[path])
   return (
     <Container>
       <Content>

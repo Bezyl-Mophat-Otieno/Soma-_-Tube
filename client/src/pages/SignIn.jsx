@@ -1,10 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { useState } from "react";
-import { useEffect } from "react";
 import axios from "axios";
-import {useDispatch} from 'react-redux'
-import { loadingStart , loginSuccess , loginFailure } from "../redux/userSlice";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
+import { auth, provider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
+import { async } from "@firebase/util";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -78,21 +80,57 @@ const SignIn = () => {
   // handle login
   const handleSignIn = async(e)=>{
     e.preventDefault()
-    dispatch(loadingStart())
+    dispatch(loginStart())
     try {
       const res = await axios.post('/auth/signIn',{email,password})
      dispatch(loginSuccess(res.data))
-      // handle the login success
+      // handle the login success...
       
     } catch (error) {
-      // handle the error in the frontend
+      // handle the error in the frontend...
       console.log(error)
       dispatch(loginFailure())
     }
 
   }
 
+
+  const signInWithGoogle = async () => {
+    dispatch(loginStart());
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        axios
+          .post("/auth/google", {
+            name: result.user.displayName,
+            email: result.user.email,
+            img: result.user.photoURL,
+          })
+          .then((res) => {
+            console.log(res)
+            dispatch(loginSuccess(res.data));
+          });
+      })
+      .catch((error) => {
+        dispatch(loginFailure());
+      });
+  };
+
   const handleSignUp = async()=>{
+    dispatch(loginStart())
+
+    try {
+     const res =  axios.post('/auth/signup',{
+        name:userName,
+        email,password
+      })
+      dispatch(loginSuccess(res.data))
+      //handle successfull registration...
+      
+    } catch (error) {
+      dispatch(loginFailure())
+      //handle an error in registration..
+      
+    }
 
 
   }
@@ -104,6 +142,8 @@ const SignIn = () => {
         <Input placeholder="username" onChange={(e)=>setUserName(e.target.value)} />
         <Input type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)} />
         <Button onClick={handleSignIn}>Sign in</Button>
+        <Title>or</Title>
+        <Button onClick={signInWithGoogle}>Signin with Google</Button>
         <Title>or</Title>
         <Input placeholder="username" onChange={(e)=>setUserName(e.target.value)}/>
         <Input placeholder="email" onChange={(e)=>setUserEmail(e.target.value)} />

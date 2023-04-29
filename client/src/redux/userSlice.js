@@ -9,10 +9,10 @@ const initialState = {
 }
 
 export const userSlice = createSlice({
-    name:"currentUser",
+    name:"user",
     initialState,
     reducers:{
-        loadingStart : (state)=>{
+        loginStart : (state)=>{
             state.loading = true
            
         },
@@ -38,7 +38,7 @@ export const userSlice = createSlice({
 
 // export the reducer functions 
 
-export const { loadingStart , loginSuccess , loginFailure , logout} =  userSlice.actions
+export const { loginStart , loginSuccess , loginFailure , logout} =  userSlice.actions
 
 // export the reducer 
 

@@ -15,8 +15,8 @@ try {
        ...req.body,password: hashedPassword
    })
 
-   await user.save();
-   console.log(user)
+  const savedUser = await user.save();
+   console.log(savedUser)
    return res.status(200).send("User created successfully");
 
 } catch (error) {
@@ -55,10 +55,56 @@ export const signIn = async(req,res , next)=>{
     }
 
     // controller for signing out  .
-   export  const signOut = (req, res) => {
-        req.logout()
-        res.clearCookie("access_token").send("Logged out")
+   export  const signOut =async (req, res , next) => {
+       await req.logout()
+      await  res.clearCookie("access_token").send("Logged out")
 
     }
+
+    // controller for signing in with Google Cloud
+export const  googleSignIn = async( req , res , next)=>{
+    const user = await User.findOne({ email:req.body.email})
+
+     try {
+
+
+    if(user){
+
+        // creating an access token to protect our user 
+        const access_token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
+
+        // sending the token to the user using cookies 
+        res.cookie("access_token",access_token,{
+            httpOnly:true,
+        }).status(200).json(user._doc)
+        console.log("Login successful")
+
+  }else{
+
+  // if user is not found we  create the user using the information from google.com
+ const newUser = await User.create({
+  ...req.body,fromGoogle:true
+})
+
+ const savedUser = await newUser.save();
+      console.log(newUser)
+        // creating an access token to protect our user 
+        const access_token = jwt.sign({ id: savedUser._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
+
+        // sending the token to the user using cookies 
+        res.cookie("access_token",access_token,{
+            httpOnly:true,
+        }).status(200).json(savedUser._doc)
+        console.log("Login successful")
+      return res.status(200).send("User created successfully");
+  }
+        
+     } catch (error) {
+        next(error);
+        
+     }
+
+}
+
 
     
