@@ -1,5 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import {useDispatch} from 'react-redux'
+import { loadingStart , loginSuccess , loginFailure } from "../redux/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -64,19 +69,46 @@ const Link = styled.span`
 `;
 
 const SignIn = () => {
+  const [userName , setUserName] = useState("")
+  const [email , setUserEmail] = useState("")
+  const [password , setPassword] = useState("")
+// dispatch the various actions
+  const dispatch = useDispatch()
+
+  // handle login
+  const handleSignIn = async(e)=>{
+    e.preventDefault()
+    dispatch(loadingStart())
+    try {
+      const res = await axios.post('/auth/signIn',{email,password})
+     dispatch(loginSuccess(res.data))
+      // handle the login success
+      
+    } catch (error) {
+      // handle the error in the frontend
+      console.log(error)
+      dispatch(loginFailure())
+    }
+
+  }
+
+  const handleSignUp = async()=>{
+
+
+  }
   return (
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
         <SubTitle>to continue to LamaTube</SubTitle>
-        <Input placeholder="username" />
-        <Input type="password" placeholder="password" />
-        <Button>Sign in</Button>
+        <Input placeholder="username" onChange={(e)=>setUserName(e.target.value)} />
+        <Input type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)} />
+        <Button onClick={handleSignIn}>Sign in</Button>
         <Title>or</Title>
-        <Input placeholder="username" />
-        <Input placeholder="email" />
-        <Input type="password" placeholder="password" />
-        <Button>Sign up</Button>
+        <Input placeholder="username" onChange={(e)=>setUserName(e.target.value)}/>
+        <Input placeholder="email" onChange={(e)=>setUserEmail(e.target.value)} />
+        <Input type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)} />
+        <Button onClick={handleSignUp} >Sign up</Button>
       </Wrapper>
       <More>
         English(USA)
