@@ -12,20 +12,43 @@ export const videoSlice = createSlice({
     name:"video",
     initialState,
     reducers:{
-        videoStart : (state)=>{
+        fetchStart : (state)=>{
             state.loading = true
            
         },
-        videoSuccess:(state,action)=>{
-            state.currentUser = action.payload
+        fetchSuccess:(state,action)=>{
+            state.currentVideo = action.payload
             state.loading = false
 
         },
-        videoFailure:(state)=>{
+        fetchFailure:(state)=>{
             state.loading = false
             state.error=true
 
         },
+        like: (state, action) => {
+            if (!state.currentVideo.likes.includes(action.payload)) {
+              state.currentVideo.likes.push(action.payload);
+              state.currentVideo.dislikes.splice(
+                state.currentVideo.dislikes.findIndex(
+                  (userId) => userId === action.payload
+                ),
+                1
+              );
+            }
+          },
+          dislike: (state, action) => {
+            if (!state.currentVideo.dislikes.includes(action.payload)) {
+              state.currentVideo.dislikes.push(action.payload);
+              state.currentVideo.likes.splice(
+                state.currentVideo.likes.findIndex(
+                  (userId) => userId === action.payload
+                ),
+                1
+              );
+            }
+          },
+
     
     }
 
@@ -35,7 +58,7 @@ export const videoSlice = createSlice({
 
 // export the reducer functions 
 
-export const { videoStart , videoSuccess , videoFailure } =  videoSlice.actions
+export const { fetchStart , fetchSuccess , fetchFailure , like ,dislike} =  videoSlice.actions
 
 // export the reducer 
 
