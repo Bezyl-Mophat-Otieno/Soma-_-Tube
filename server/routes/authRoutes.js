@@ -1,5 +1,5 @@
 import express from 'express';
-import {signUp,signIn} from '../controllers/authController.js';
+import {signUp,signIn , googleSignIn} from '../controllers/authController.js';
 import asyncHandler from 'express-async-handler'
 const router = express.Router();
 // sign up
