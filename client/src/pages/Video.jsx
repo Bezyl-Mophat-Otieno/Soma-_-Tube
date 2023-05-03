@@ -1,20 +1,20 @@
 import React, { useEffect , useState } from "react";
 import styled from "styled-components";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbUpIcon from '@mui/icons-material/ThumbUpIcon'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
-import Card from "../components/Card";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetchStart, fetchSuccess , fetchFailure , like , dislike} from "../redux/videoSlice";
 import { format } from "timeago.js";
-import ThumbDownIcon from "@mui/icons-material/ThumbDownIcon"
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { subscription } from "../redux/userSlice";
+import Recomendation from "../components/Recomendation";
 
 
 const Container = styled.div`
@@ -63,9 +63,7 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const Recommendation = styled.div`
-  flex: 2;
-`;
+
 const Channel = styled.div`
   display: flex;
   justify-content: space-between;
@@ -170,7 +168,7 @@ const handleSub = async()=>{
     <Container>
       <Content>
         <VideoWrapper>
-        <VideoFrame src={currentVideo.videoUrl}/>
+        <VideoFrame src={currentVideo.videoUrl}  controls/>
 
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
@@ -208,21 +206,7 @@ const handleSub = async()=>{
         <Hr />
         <Comments videoId ={currentVideo._id}/>
       </Content>
-      <Recommendation>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-      </Recommendation>
+      <Recomendation tags ={currentVideo.tags} />
     </Container>
   );
 };

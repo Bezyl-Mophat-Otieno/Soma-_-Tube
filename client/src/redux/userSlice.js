@@ -26,8 +26,10 @@ export const userSlice = createSlice({
             state.error=true
 
         },
-        logout:()=>{
-            return initialState
+        logout:(state)=>{
+            state.currentUser = null
+
+          
         },
         subscription : (state, action) => {
 

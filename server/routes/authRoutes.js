@@ -1,5 +1,5 @@
 import express from 'express';
-import {signUp,signIn , googleSignIn} from '../controllers/authController.js';
+import {signUp,signIn , googleSignIn , signOut} from '../controllers/authController.js';
 import asyncHandler from 'express-async-handler'
 const router = express.Router();
 // sign up
@@ -8,8 +8,8 @@ router.post('/signUp', signUp)
 router.post('/signIn', signIn)
 // google sign in
 router.post('/google', googleSignIn)
-// // sign out
-// router.get('/signOut', signOut)
+// sign out
+router.get('/signOut', signOut)
 
 
 

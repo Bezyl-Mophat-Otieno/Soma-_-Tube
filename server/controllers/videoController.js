@@ -155,7 +155,7 @@ export const videoSubscribedTo =async ( req , res , next)=>{
 
 export const findByTag = async (req,res,next)=>{
 
-    const tags = req.params.tags.split(',');
+    const tags = req.query.tags.split(',');
     try {
         const videos =await Video.find({tags:{$in:tags}}).limit(20)
         res.status(200).json(videos)

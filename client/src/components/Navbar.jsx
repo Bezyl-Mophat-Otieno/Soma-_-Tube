@@ -35,6 +35,7 @@ const Search = styled.div`
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Input = styled.input`
@@ -85,7 +86,7 @@ const Navbar = () => {
       <Wrapper>
         <Search>
           <Input placeholder="Search" onChange={(e)=>setQ(e.target.value)}/>
-          <SearchOutlinedIcon onClick={navigate(`/search?q=${q}`)}  />
+          <SearchOutlinedIcon onClick={()=>navigate(`/search?q=${q}`)}  />
         </Search>
         { currentUser ? (
           <User>

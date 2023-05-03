@@ -7,6 +7,7 @@ import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { async } from "@firebase/util";
 import { useNavigate } from "react-router-dom";
+import { serverUrl } from "../modules.js";
 
 const Container = styled.div`
   display: flex;
@@ -82,8 +83,9 @@ const SignIn = () => {
     e.preventDefault()
     dispatch(loginStart())
     try {
-      const res = await axios.post('/auth/signIn',{email,password})
+      const res = await axios.post(`${serverUrl}auth/signIn`,{email,password})
      dispatch(loginSuccess(res.data))
+
       // handle the login success...
       
     } catch (error) {
@@ -100,7 +102,7 @@ const SignIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         axios
-          .post("/auth/google", {
+          .post(`${serverUrl}auth/google`, {
             name: result.user.displayName,
             email: result.user.email,
             img: result.user.photoURL,
@@ -117,9 +119,10 @@ const SignIn = () => {
 
   const handleSignUp = async()=>{
     dispatch(loginStart())
-
+    
     try {
-     const res =  axios.post('/auth/signup',{
+    console.log("Into sign up")
+     const res = await axios.post(`${serverUrl}auth/signUp`,{
         name:userName,
         email,password
       })
@@ -139,15 +142,15 @@ const SignIn = () => {
       <Wrapper>
         <Title>Sign in</Title>
         <SubTitle>to continue to LamaTube</SubTitle>
-        <Input placeholder="username" onChange={(e)=>setUserName(e.target.value)} />
-        <Input type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)} />
+        <Input name="email" type="email" placeholder="Email" onChange={(e)=>setUserEmail(e.target.value)} />
+        <Input name="password" type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)} />
         <Button onClick={handleSignIn}>Sign in</Button>
         <Title>or</Title>
         <Button onClick={signInWithGoogle}>Signin with Google</Button>
         <Title>or</Title>
-        <Input placeholder="username" onChange={(e)=>setUserName(e.target.value)}/>
-        <Input placeholder="email" onChange={(e)=>setUserEmail(e.target.value)} />
-        <Input type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)} />
+        <Input name="username" placeholder="Username" onChange={(e)=>setUserName(e.target.value)}/>
+        <Input name="email" placeholder="Email" onChange={(e)=>setUserEmail(e.target.value)} />
+        <Input name="password" type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)} />
         <Button onClick={handleSignUp} >Sign up</Button>
       </Wrapper>
       <More>

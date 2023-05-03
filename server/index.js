@@ -6,11 +6,17 @@ import videoRoutes from './routes/videoRoutes.js'
 import commentRoutes from './routes/commentRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+
+
 
 //TODO install {jsonwebtoken , cookie-perser}
 dotenv.config()
 const app = express()
 const PORT = 5000
+
+// Configuring cors
+app.use(cors())
 // creating a connection to the database
 const connectDB = async () => {
 

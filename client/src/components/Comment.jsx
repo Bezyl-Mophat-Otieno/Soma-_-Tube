@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from 'axios'
 import { useState } from "react";
 import { useEffect } from "react";
+import {format } from 'timeago.js'
 
 const Container = styled.div`
   display: flex;
@@ -52,10 +53,10 @@ const Comment = ({comment}) => {
 
   return (
     <Container>
-      <Avatar src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo" />
+      <Avatar src={channel.img} />
       <Details>
         <Name>
-          John Doe <Date>1 day ago</Date>
+          {channel.name} <Date>  {format(channel.createAt)} </Date>
         </Name>
         <Text>
          {comment.desc}

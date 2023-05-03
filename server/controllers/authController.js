@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 // controller for sign up .
 export const signUp = async(req,res , next)=>{
 try {
+    console.log("I am signing Up this is my request body " + req.body)
 // generating the hash of the password
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(req.body.password, salt);
@@ -56,8 +57,8 @@ export const signIn = async(req,res , next)=>{
 
     // controller for signing out  .
    export  const signOut =async (req, res , next) => {
-       await req.logout()
-      await  res.clearCookie("access_token").send("Logged out")
+      await  res.clearCookie("access_token").send("User logged out successfully");
+      next()
 
     }
 
@@ -71,7 +72,7 @@ export const  googleSignIn = async( req , res , next)=>{
     if(user){
 
         // creating an access token to protect our user 
-        const access_token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
+        const access_token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 60 })
 
         // sending the token to the user using cookies 
         res.cookie("access_token",access_token,{

@@ -2,6 +2,7 @@ import React, { useEffect , useState}from "react";
 import styled from "styled-components";
 import Card from "../components/Card";
 import axios from 'axios'
+import { serverUrl } from "../modules.js";
 
 const Container = styled.div`
   display: flex;
@@ -11,13 +12,14 @@ const Container = styled.div`
 
 
 const Home = ({type}) => {
+  console.log(serverUrl);
   const [videos , setVideos] = useState([])
 
 //TODO install axios
   useEffect(()=>{
 
     const fetchVideos =async ()=>{
-      const res =await axios.get(`/videos/${type}`)
+      const res =await axios.get(`${serverUrl}/videos/${type}`)
       setVideos(res.data)
     }
     fetchVideos()

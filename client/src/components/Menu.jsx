@@ -18,7 +18,10 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import { Link } from "react-router-dom";
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { logout } from "../redux/userSlice";
+import { serverUrl } from "../modules.js";
+import axios from "axios";
 const Container = styled.div`
   flex: 1;
   background-color: ${({ theme }) => theme.bgLighter};
@@ -61,6 +64,8 @@ const Hr = styled.hr`
 `;
 
 const Login = styled.div``;
+const Logout = styled.div``;
+
 const Button = styled.button`
   padding: 5px 15px;
   background-color: transparent;
@@ -74,6 +79,21 @@ const Button = styled.button`
   align-items: center;
   gap: 5px;
 `;
+const LogOutButton = styled.button`
+  padding: 5px 15px;
+  background-color: transparent;
+  border: 1px solid red;
+  color: red;
+  border-radius: 3px;
+  font-weight: 500;
+  margin-top: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
+
 
 const Title = styled.h2`
   font-size: 14px;
@@ -83,7 +103,21 @@ const Title = styled.h2`
 `;
 
 const Menu = ({ darkMode, setDarkMode }) => {
+  const dispatch = useDispatch()
   const {currentUser} = useSelector ((state)=>state.user)
+  const handleLogout = async()=>{
+    try {
+    const res = await  axios.get("http://localhost:5000/api/auth/signOut")
+    res && dispatch(logout())
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+
+   
+
+  }
   return (
     <Container>
       <Wrapper>
@@ -121,9 +155,8 @@ const Menu = ({ darkMode, setDarkMode }) => {
         </Item>
         <Hr />
 
-{  !currentUser && <>
-
-  <Login>
+{  !currentUser ? 
+(<>  <Login>
           Sign in to like videos, comment, and subscribe.
           <Link to="signin" style={{textDecoration:"none"}}>
             <Button>
@@ -134,8 +167,18 @@ const Menu = ({ darkMode, setDarkMode }) => {
         </Login>
         <Hr />
         
-       </> 
-  }
+       </>): (<><Logout>
+          Sign in to like videos, comment, and subscribe.
+          <Link to="signin" style={{textDecoration:"none"}}>
+            <LogOutButton onClick={handleLogout} >
+              <AccountCircleOutlinedIcon />
+              Logout
+            </LogOutButton>
+          </Link>
+        </Logout>
+        <Hr /></>)
+      }
+  
         <Title>BEST OF LAMATUBE</Title>
         <Item>
           <LibraryMusicOutlinedIcon />
