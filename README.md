@@ -2,7 +2,7 @@ Sure, here's another revision of the README content for the Soma_Tube repository
 
 # Soma Tube
 
-Soma Tube is a web application that enables students in tertiary institutions to share, view, comment, and like each other's tutorials from their respective universities for the sole purpose of helping each other learn better. It is built using [list the technologies used, such as React, Redux, JWT, React Styled Components, Express, MongoDB, Firebase Google Auth, and Firebase Cloud Storage] and is designed to be responsive and easy to use.
+Soma Tube is a web application that enables students in tertiary institutions to share, view, comment, and like each other's tutorials from their respective universities for the sole purpose of helping each other learn better. It is built using  technologies  such as React, Redux, JWT, React Styled Components, Express, MongoDB, Firebase Google Auth, and Firebase Cloud Storage] and is designed to be responsive and easy to use.
 
 ## Skills Learned
 
