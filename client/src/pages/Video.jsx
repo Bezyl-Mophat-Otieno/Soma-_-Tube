@@ -15,6 +15,7 @@ import { format } from "timeago.js";
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { subscription } from "../redux/userSlice";
 import Recomendation from "../components/Recomendation";
+import { serverUrl } from "../modules";
 
 
 const Container = styled.div`
@@ -130,8 +131,8 @@ const Video = () => {
     const fetchVideoData = async()=>{
       dispatch(fetchStart())
       try {
-        const videoRes = await axios.get(`/videos/find/${path}`)
-        const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
+        const videoRes = await axios.get(`${serverUrl}videos/find/${path}`)
+        const channelRes = await axios.get(`users/find/${videoRes.data.userId}`)
         setChannel(channelRes.data)
         dispatch(fetchSuccess(videoRes.data))
       } catch (error) {

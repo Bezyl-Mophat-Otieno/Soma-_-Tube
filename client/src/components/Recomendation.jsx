@@ -4,6 +4,10 @@ import { Card } from '@mui/material';
 import { useEffect } from 'react';
 import axios from "axios"
 import { useState } from 'react';
+import { serverUrl } from "../modules.js";
+
+
+
 
 
 const Container = styled.div`
@@ -14,7 +18,7 @@ function Recomendation({tags}) {
     
     useEffect(()=>{
      const fetchRelatedVideos = async ()=>{
-        const res = await axios.get(`/videos/tags?tags=${tags}`)
+        const res = await axios.get(`${serverUrl}videos/tags?tags=${tags}`)
         setVideos(res.data)
 
 

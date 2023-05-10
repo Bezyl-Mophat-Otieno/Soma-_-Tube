@@ -22,6 +22,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { logout } from "../redux/userSlice";
 import { serverUrl } from "../modules.js";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Container = styled.div`
   flex: 1;
   background-color: ${({ theme }) => theme.bgLighter};
@@ -103,12 +104,14 @@ const Title = styled.h2`
 `;
 
 const Menu = ({ darkMode, setDarkMode }) => {
+const navigate = useNavigate()
   const dispatch = useDispatch()
   const {currentUser} = useSelector ((state)=>state.user)
   const handleLogout = async()=>{
     try {
-    const res = await  axios.get("http://localhost:5000/api/auth/signOut")
+    const res = await  axios.get(`${serverUrl}auth/signOut`)
     res && dispatch(logout())
+    navigate('/signIn')
       
     } catch (error) {
       console.log(error)
@@ -127,10 +130,12 @@ const Menu = ({ darkMode, setDarkMode }) => {
             Soma_Tube
           </Logo>
         </Link>
+       <Link to ='/' style= {{ textDecoration: "none", color: "inherit" }}>
         <Item>
           <HomeIcon />
           Home
         </Item>
+       </Link>
 
         <Link to='trends' style={{textDecoration:"none" , color:"inherit"}}>
         <Item>
@@ -179,7 +184,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
         <Hr /></>)
       }
   
-        <Title>BEST OF LAMATUBE</Title>
+        <Title>BEST OF SOMA_TUBE</Title>
         <Item>
           <LibraryMusicOutlinedIcon />
           Music

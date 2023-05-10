@@ -5,6 +5,8 @@ import { format, render, cancel, register } from 'timeago.js';
 import axios from "axios"
 import { useEffect } from "react";
 import { useState } from "react";
+import { serverUrl } from "../modules.js";
+import {} from '../redux/videoSlice.js'
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "360px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};
@@ -61,7 +63,7 @@ const Card = ({ type,video }) => {
   useEffect(()=>{
 
     const fetchChannels =async ()=>{
-      const res =await axios.get(`/users/find/${video.userId}`)
+      const res =await axios.get(`${serverUrl}users/find/${video.userId}`)
       setChannels(res.data)
     }
     fetchChannels()
@@ -69,7 +71,7 @@ const Card = ({ type,video }) => {
   },[video.userId])
 
   return (
-    <Link to={`/videos/${video._id}`} style={{ textDecoration: "none" }}>
+    <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
         <Image
           type={type}

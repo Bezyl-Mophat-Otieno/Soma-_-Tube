@@ -12,19 +12,16 @@ const Container = styled.div`
 
 
 const Home = ({type}) => {
-  console.log(serverUrl);
   const [videos , setVideos] = useState([])
 
 //TODO install axios
-  useEffect(()=>{
-
-    const fetchVideos =async ()=>{
-      const res =await axios.get(`${serverUrl}/videos/${type}`)
-      setVideos(res.data)
-    }
-    fetchVideos()
-
-  },[type])
+useEffect(() => {
+  const fetchVideos = async () => {
+    const res = await axios.get(`videos/${type}`);
+    setVideos(res.data);
+  };
+  fetchVideos();
+}, [type]);
   return (
     <Container>
     {videos.map((video)=>{
